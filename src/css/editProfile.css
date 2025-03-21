@@ -1,0 +1,196 @@
+/* Reset default margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5; /* Light background for the page */
+  color: #333;
+}
+
+/* Wrapper for the entire edit profile page */
+.edit-profile-wrapper {
+  display: flex;
+  min-height: calc(100vh - 60px); /* Full height minus navbar height (adjust if different) */
+  margin-top: 60px; /* Offset for navbar height */
+  width: 100%;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 25%; /* 25% of page width */
+  background: linear-gradient(135deg, #2c3e50, #34495e); /* Gradient background */
+  color: #fff;
+  padding: 20px;
+  min-height: calc(100vh - 60px); /* Matches wrapper height */
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on right */
+}
+
+.sidebar h2 {
+  font-size: 1.8em;
+  margin-bottom: 25px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ecf0f1;
+  border-bottom: 2px solid #3498db; /* Blue underline */
+  padding-bottom: 10px;
+}
+
+.sidebar ul {
+  list-style: none;
+  flex-grow: 1; /* Allows ul to stretch and fill space */
+}
+
+.sidebar li {
+  padding: 15px 20px;
+  font-size: 1.1em;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.sidebar li:hover {
+  background-color: #3498db; /* Blue hover effect */
+  transform: translateX(5px); /* Slight shift on hover */
+}
+
+.sidebar li:active {
+  background-color: #2980b9; /* Darker blue on click */
+}
+
+/* Content area styling */
+.content-area {
+  width: 75%; /* 75% of page width */
+  padding: 30px;
+  background-color: #fff; /* White background */
+  min-height: calc(100vh - 60px); /* Matches sidebar height */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); /* Subtle inner shadow */
+}
+
+/* Content section styling */
+.content-section {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #fafafa; /* Light gray background */
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.content-section h3 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color: #2c3e50; /* Dark blue-gray */
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.content-section input,
+.content-section select,
+.content-section textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #bdc3c7; /* Light gray border */
+  border-radius: 6px;
+  font-size: 1em;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.content-section input:focus,
+.content-section select:focus,
+.content-section textarea:focus {
+  border-color: #3498db; /* Blue border on focus */
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Glow effect */
+}
+
+.content-section button {
+  padding: 12px 25px;
+  background-color: #3498db; /* Blue button */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.content-section button:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.content-section button:disabled {
+  background-color: #95a5a6; /* Gray when disabled */
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Phone container styling */
+.phone-container {
+  display: flex;
+  gap: 15px;
+}
+
+.phone-container select {
+  width: 35%;
+}
+
+.phone-container input {
+  width: 65%;
+}
+
+/* Error message styling */
+.error-message {
+  color: #e74c3c; /* Red for errors */
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Delete button styling */
+.delete-btn {
+  background-color: #e74c3c; /* Red for delete */
+}
+
+.delete-btn:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .edit-profile-wrapper {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto; /* Allows sidebar to shrink on small screens */
+  }
+
+  .content-area {
+    width: 100%;
+    padding: 20px;
+  }
+}
+
+.messages-section {
+  margin-top: 20px;
+}
+
+.message-item {
+  background: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}

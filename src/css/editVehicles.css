@@ -1,0 +1,106 @@
+.edit-vehicles-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.edit-vehicles-container h2{
+  font-family: "Anton", sans-serif;
+    font-size: 40px !important;  /* Force the size */
+    color: #cd3e66 !important;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+.vehicles-list {
+  margin-top: 20px;
+}
+
+.vehicle-item {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-image {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.booked-info {
+  margin-top: 10px;
+  padding: 10px;
+  background: #e0f7fa;
+  border-radius: 5px;
+}
+
+.requests-section {
+  margin-top: 15px;
+  padding: 10px;
+  background: #f0f0f0;
+  border-radius: 5px;
+}
+
+.request-item {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.request-item:last-child {
+  border-bottom: none;
+}
+
+.request-actions {
+  margin-top: 10px;
+}
+
+.accept-btn {
+  background: #2ecc71;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.reject-btn {
+  background: #e74c3c;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.add-vehicle-btn {
+  background: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.error-message {
+  color: #e74c3c;
+}

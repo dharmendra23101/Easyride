@@ -1,0 +1,58 @@
+.request-status-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .request-status-container h2 {
+    font-family: "Anton", sans-serif;
+    font-size: 40px !important;  /* Force the size */
+    color: #DE3163 !important;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .status-card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .status-card p {
+    margin: 5px 0;
+  }
+  
+  .reject-btn {
+    background: #e74c3c;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .delete-btn {
+    background: #e74c3c;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    text-align: center;
+  }

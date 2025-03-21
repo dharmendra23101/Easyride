@@ -1,0 +1,78 @@
+/* Apply blur and transparency to the profile container */
+.profile-show-container {
+  font-family: "Poppins", sans-serif;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.2); /* Light transparent white */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  
+  /* Apply blur effect */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px); /* Safari support */
+  
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.profile-show-container h2{
+  font-family: "Anton", sans-serif;
+    font-size: 40px !important;  /* Force the size */
+    color: #DE3163 !important;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+
+/* Profile Picture */
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #3498db;
+  margin-bottom: 15px;
+}
+
+/* Profile Info */
+.profile-info p {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #444;
+}
+
+.profile-info p strong {
+  font-weight: 700;
+  color: #222;
+}
+
+/* Error Message */
+.error-message {
+  color: #d9534f;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Edit Button */
+.edit-btn {
+  display: inline-block;
+  background: #3498db;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  margin-top: 15px;
+}
+
+.edit-btn:hover {
+  background: #217dbb;
+}
