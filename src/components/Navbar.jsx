@@ -56,7 +56,7 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <Link to="/">
-          <img src="/easyridel.jpg" alt="EasyRide" className="logo" />
+          <img src="/Easyride/easyridel.jpg" alt="EasyRide" className="logo" />
         </Link>
 
         <ul className="nav-links">
