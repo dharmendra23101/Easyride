@@ -12,7 +12,6 @@ const DEFAULT_DP = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJg9BT
 
 const Navbar = () => {
   const [user] = useAuthState(auth);
-  const [username, setUsername] = useState("");
   const [photoURL, setPhotoURL] = useState(DEFAULT_DP);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -23,10 +22,8 @@ const Navbar = () => {
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
           const firestoreData = userSnap.data();
-          setUsername(firestoreData.displayName || user.displayName || "");
           setPhotoURL(firestoreData.photoURL || user.photoURL || DEFAULT_DP);
         } else {
-          setUsername(user.displayName || "");
           setPhotoURL(user.photoURL || DEFAULT_DP);
         }
       }
@@ -40,10 +37,8 @@ const Navbar = () => {
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
           const firestoreData = userSnap.data();
-          setUsername(firestoreData.displayName || updatedUser.displayName || "");
           setPhotoURL(firestoreData.photoURL || updatedUser.photoURL || DEFAULT_DP);
         } else {
-          setUsername(updatedUser.displayName || "");
           setPhotoURL(updatedUser.photoURL || DEFAULT_DP);
         }
       }
@@ -61,7 +56,10 @@ const Navbar = () => {
 
         <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/book">Book Here</Link></li>
+          <li><Link to="/book">Book Vehicle</Link></li>
+          {user && (
+            <li><Link to="/edit-vehicles">Add Vehicle</Link></li>
+          )}
         </ul>
 
         {user ? (
@@ -69,13 +67,12 @@ const Navbar = () => {
             className="profile-section"
             onClick={() => setIsProfileOpen(true)}
           >
-            <img 
-              src={photoURL} 
-              alt="User DP" 
+            <img
+              src={photoURL}
+              alt="User DP"
               className="profile-pic"
               onError={(e) => (e.target.src = DEFAULT_DP)}
             />
-            <span className="username">{username}</span>
           </div>
         ) : (
           <div className="auth-buttons">

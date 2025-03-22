@@ -1,44 +1,113 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@600&family=Pacifico&display=swap');
-
+/* home.css */
 .home {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f6fa;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden; /* Prevents horizontal overflow */
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  height: 60vh; /* Reduced height for better balance */
+  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-content {
   text-align: center;
-  padding: 20px;
+  color: white;
+  z-index: 1;
 }
 
-/* 🚀 Bold & Impactful Font for "Welcome to EasyRide" */
-.home h1 {
-  font-family: "Anton", sans-serif;
-  font-size: 50px;
-  color: #DE3163;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
-  margin-bottom: 10px;
+.hero-content h1 {
+  font-size: 2.5rem; /* Reduced from overly large size */
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
-/* ✨ Elegant Font for Subtext */
-.home p {
-  font-family: "Poppins", sans-serif;
-  font-size: 20px;
-  color: #333;
-  font-weight: 500;
-  margin-top: 10px;
+.hero-content .highlight {
+  color: #e74c3c; /* Vibrant accent color */
+}
+
+.hero-content .tagline {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.cta-button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* Slider Section */
+.slider-section {
+  padding: 2rem 1rem;
+  background-color: white;
 }
 
 .slider {
   position: relative;
-  max-width: 7000px;
-  margin: 20px auto;
+  max-width: 90vw;
+  margin: 0 auto;
   overflow: hidden;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.slide-container {
+  position: relative;
+  width: 100%;
+  height: 400px; /* Fixed height for consistency */
 }
 
 .slide-image {
   width: 100%;
-  height: 500px;
+  height: 100%;
   object-fit: cover;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease;
+}
+
+.slide-image.transitioning {
+  opacity: 0.5;
+}
+
+.slide-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.slide-caption h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.slide-caption p {
+  font-size: 1rem;
 }
 
 .prev,
@@ -46,76 +115,227 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
-  padding: 10px;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
-  font-size: 20px;
-  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .prev {
-  left: 10px;
+  left: 0;
 }
 
 .next {
-  right: 10px;
+  right: 0;
 }
 
 .prev:hover,
 .next:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-.suggestions {
-  margin-top: 80px;
+.dots-container {
+  text-align: center;
+  padding: 1rem 0;
 }
 
-.suggestions h2 {
-  font-family: "Poppins", sans-serif;
-  font-size: 20px;
-  color: #333;
-  text-align: left;
-  font-size: 40px; /* Adjust as needed */
-  font-weight: bold;
-  margin-left: 20px; /* Adds spacing from the left */
+.dot {
+  height: 10px;
+  width: 10px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+.dot.active {
+  background-color: #3498db;
+}
+
+/* Suggestions Section */
+.suggestions-section {
+  padding: 3rem 1rem;
+  background-color: #f5f6fa;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+}
 
 .suggestion-container {
-  display: flex;
-  justify-content: center;
-  gap: 150px;
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 90vw;
+  margin: 0 auto;
 }
 
-/* 🎴 Suggestion Card Styling */
 .suggestion-item {
-  background: rgb(255, 255, 255);
-  border-radius: 20px;
-  box-shadow: 0 15px 8px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
   text-align: center;
-  max-width: 280px;
-  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .suggestion-item:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-/* 🏍️🚗🚌 Icon Styling */
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .suggestion-icon {
-  width: 140px;
-  height: auto;
-  margin-bottom: 15px;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
-/* 📝 Text inside the card */
-.suggestion-text {
-  font-family: "Poppins", sans-serif;
-  font-size: 18px;
-  color: #333;
-  font-weight: 500;
+.suggestion-item h3 {
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+}
+
+.suggestion-description {
+  font-size: 0.95rem;
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+}
+
+.book-button {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.book-button:hover {
+  filter: brightness(90%);
+  transform: translateY(-2px);
+}
+
+/* Features Section */
+.features-section {
+  padding: 3rem 1rem;
+  background-color: white;
+}
+
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 90vw;
+  margin: 0 auto;
+}
+
+.feature {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #3498db;
+}
+
+.feature h3 {
+  font-size: 1.3rem;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+}
+
+.feature p {
+  font-size: 0.95rem;
+  color: #7f8c8d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 50vh;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content .tagline {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .slide-container {
+    height: 300px;
+  }
+
+  .slide-caption h3 {
+    font-size: 1.2rem;
+  }
+
+  .slide-caption p {
+    font-size: 0.9rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .section-header p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-content .tagline {
+    font-size: 0.9rem;
+  }
+
+  .cta-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .slide-container {
+    height: 250px;
+  }
 }

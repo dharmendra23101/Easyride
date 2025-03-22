@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
-import { updateProfile, onAuthStateChanged, deleteUser } from "firebase/auth";
-import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
+import { updateProfile, onAuthStateChanged, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import { doc, setDoc, getDoc, deleteDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import ProfileShow from "./ProfileShow";
 import "../css/editProfile.css";
@@ -144,18 +144,47 @@ const EditProfile = () => {
 
   const handleDeleteAccount = async () => {
     if (!user) return;
-    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-      try {
-        setLoading(true);
-        await deleteDoc(doc(db, "users", user.uid));
-        await deleteUser(user);
-        navigate("/login");
-      } catch (error) {
-        console.error("Error deleting account:", error.message);
-        setError("Failed to delete account: " + error.message);
-      } finally {
-        setLoading(false);
+    if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Step 1: Prompt for re-authentication (if needed)
+      const password = window.prompt("Please enter your password to confirm account deletion:");
+      if (!password) {
+        throw new Error("Password required for re-authentication.");
       }
+      const credential = EmailAuthProvider.credential(user.email, password);
+      await reauthenticateWithCredential(user, credential);
+
+      // Step 2: Delete user's vehicles
+      const vehiclesQuery = query(collection(db, "vehicles"), where("userId", "==", user.uid));
+      const vehiclesSnapshot = await getDocs(vehiclesQuery);
+      const deleteVehiclePromises = vehiclesSnapshot.docs.map((doc) => deleteDoc(doc.ref));
+      await Promise.all(deleteVehiclePromises);
+
+      // Step 3: Delete user's booking requests
+      const requestsQuery = query(collection(db, "bookingRequests"), where("userId", "==", user.uid));
+      const requestsSnapshot = await getDocs(requestsQuery);
+      const deleteRequestPromises = requestsSnapshot.docs.map((doc) => deleteDoc(doc.ref));
+      await Promise.all(deleteRequestPromises);
+
+      // Step 4: Delete user document from Firestore
+      await deleteDoc(doc(db, "users", user.uid));
+
+      // Step 5: Delete Firebase Auth user
+      await deleteUser(user);
+
+      navigate("/login");
+    } catch (error) {
+      console.error("Error deleting account:", error.message);
+      setError("Failed to delete account: " + error.message);
+      if (error.code === "auth/requires-recent-login") {
+        setError("Please log out and log back in, then try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 

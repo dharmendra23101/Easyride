@@ -3,6 +3,13 @@ import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import BikeImage from "../assets/BIKE.jpeg";
+import BusImage from "../assets/BUS.jpeg";
+import CarImage from "../assets/CAR.jpeg";
+import TruckImage from "../assets/TRUCK.jpeg";
+import AutoImage from "../assets/AUTO.jpeg";
+import OtherImage from "../assets/OTHER.jpeg";
+import DefaultImage from "../assets/default-vehicle.jpg";
 import "../css/addVehicle.css";
 
 const AddVehicle = () => {
@@ -10,7 +17,6 @@ const AddVehicle = () => {
   const [user, setUser] = useState(null);
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [type, setType] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
   const [preferredLocations, setPreferredLocations] = useState([]);
   const [preferredLocationInput, setPreferredLocationInput] = useState("");
   const [withDriver, setWithDriver] = useState(false);
@@ -41,6 +47,25 @@ const AddVehicle = () => {
     setPreferredLocations(preferredLocations.filter((loc) => loc !== location));
   };
 
+  const getPhotoURL = (vehicleType) => {
+    switch (vehicleType) {
+      case "Bike":
+        return BikeImage;
+      case "Bus":
+        return BusImage;
+      case "Car":
+        return CarImage;
+      case "Truck":
+        return TruckImage;
+      case "Auto":
+        return AutoImage;
+      case "Other 4-Wheeler":
+        return OtherImage;
+      default:
+        return DefaultImage;
+    }
+  };
+
   const handleSave = async () => {
     if (!user) {
       setError("No authenticated user found.");
@@ -69,7 +94,7 @@ const AddVehicle = () => {
         country: userData.country || "Not specified",
         state: userData.state || "Not specified",
         city: userData.city || "Not specified",
-        photoURL: photoURL || null,
+        photoURL: getPhotoURL(type),
         preferredLocations: preferredLocations.length > 0 ? preferredLocations : null,
         withDriver,
         price: price || null,
@@ -79,9 +104,9 @@ const AddVehicle = () => {
         phoneNumber: userData.phoneNumber || "Not available",
         createdAt: new Date().toISOString(),
         booked: false,
-        bookingRequests: [], // Always initialized
       };
 
+      console.log("Saving vehicle data:", { ...vehicleData, photoURL: "Image object" });
       await setDoc(doc(db, "vehicles", `${user.uid}_${Date.now()}`), vehicleData);
       navigate("/book");
     } catch (err) {
@@ -94,18 +119,9 @@ const AddVehicle = () => {
 
   return (
     <div className="add-vehicle-container">
-      <h2>Add Your Vehicle</h2>
+      <h2>Add Vehicle</h2>
       {error && <p className="error-message">{error}</p>}
-
-      <input
-        type="text"
-        placeholder="Vehicle Number (required)"
-        value={vehicleNumber}
-        onChange={(e) => setVehicleNumber(e.target.value)}
-        disabled={loading}
-        required
-      />
-
+      
       <select value={type} onChange={(e) => setType(e.target.value)} disabled={loading} required>
         <option value="">Select Vehicle Type (required)</option>
         <option value="Car">Car</option>
@@ -115,15 +131,16 @@ const AddVehicle = () => {
         <option value="Auto">Auto</option>
         <option value="Other 4-Wheeler">Other 4-Wheeler</option>
       </select>
-
+      
       <input
         type="text"
-        placeholder="Photo URL (optional, http/https only)"
-        value={photoURL}
-        onChange={(e) => setPhotoURL(e.target.value)}
+        placeholder="Vehicle Number (required)"
+        value={vehicleNumber}
+        onChange={(e) => setVehicleNumber(e.target.value)}
         disabled={loading}
+        required
       />
-
+      
       <div className="preferred-locations">
         <input
           type="text"
@@ -143,7 +160,7 @@ const AddVehicle = () => {
           ))}
         </div>
       </div>
-
+      
       <div className="driver-option">
         <label>
           <input
@@ -155,7 +172,7 @@ const AddVehicle = () => {
           With Driver
         </label>
       </div>
-
+      
       <input
         type="text"
         placeholder="Price (e.g., 1000/per 300 km)"
@@ -163,7 +180,7 @@ const AddVehicle = () => {
         onChange={(e) => setPrice(e.target.value)}
         disabled={loading}
       />
-
+      
       <textarea
         placeholder="Description (optional)"
         value={description}
@@ -171,7 +188,7 @@ const AddVehicle = () => {
         disabled={loading}
         rows="4"
       />
-
+      
       <button onClick={handleSave} disabled={loading}>
         {loading ? "Saving..." : "Save Vehicle"}
       </button>

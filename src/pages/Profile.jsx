@@ -5,15 +5,21 @@ import { collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "../css/profile.css";
 
+const DEFAULT_DP = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJg9BTJHBq_39g9nGfBoHo2FlpKD4venJyYanuvqu81EBWkI8M8hHuEfkJ-YbcVphhgJU&usqp=CAU";
+
 const Profile = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [photoURL, setPhotoURL] = useState(DEFAULT_DP);
+  const [username, setUsername] = useState(""); // Added for username
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        setPhotoURL(currentUser.photoURL || DEFAULT_DP); // Set DP from auth
+        setUsername(currentUser.displayName || "User"); // Set username, fallback to "User"
         fetchMessages(currentUser.uid);
       }
     });
@@ -55,7 +61,15 @@ const Profile = ({ isOpen, onClose }) => {
   return (
     <div className={`profile-sidebar ${isOpen ? "open" : ""}`}>
       <button className="close-btn" onClick={onClose}>✕</button>
-      <h2>Profile</h2>
+      <div className="profile-header">
+        <img
+          src={photoURL}
+          alt="User DP"
+          className="profile-sidebar-dp"
+          onError={(e) => (e.target.src = DEFAULT_DP)}
+        />
+        <span className="profile-username">{username}</span>
+      </div>
 
       <button
         onClick={() => {
@@ -64,16 +78,7 @@ const Profile = ({ isOpen, onClose }) => {
         }}
         className="show-profile-btn"
       >
-        Show Profile
-      </button>
-      <button
-        onClick={() => {
-          onClose();
-          navigate("/edit-vehicles");
-        }}
-        className="show-profile-btn"
-      >
-        Edit Your Vehicles
+        Your Profile
       </button>
       <button
         onClick={() => {
@@ -82,27 +87,8 @@ const Profile = ({ isOpen, onClose }) => {
         }}
         className="show-profile-btn"
       >
-        Request Status
+        Booking Status
       </button>
-
-      <div className="messages-section">
-        <h3>Your Booking Messages</h3>
-        {messages.length === 0 ? (
-          <p>No booking messages yet.</p>
-        ) : (
-          messages.map((msg, index) => (
-            <div key={index} className="message-item">
-              <p><strong>Vehicle:</strong> {msg.vehicleType}</p>
-              <p><strong>Owner:</strong> {msg.owner}</p>
-              <p><strong>Location:</strong> {msg.location}</p>
-              <p><strong>Requested Location:</strong> {msg.requestLocation}</p>
-              <p><strong>Requested Date:</strong> {msg.requestDate}</p>
-              <p><strong>Booked At:</strong> {new Date(msg.bookedAt).toLocaleString()}</p>
-              <p><strong>Status:</strong> Booked</p>
-            </div>
-          ))
-        )}
-      </div>
 
       <button onClick={handleLogout} className="logout-btn">Logout</button>
     </div>

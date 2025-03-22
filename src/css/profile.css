@@ -1,59 +1,114 @@
+/* profile.css */
 .profile-sidebar {
   position: fixed;
   top: 0;
-  right: -300px;
+  right: 0;
   width: 300px;
   height: 100%;
-  background: #fff;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s ease;
-  padding: 20px;
+  background: #165472; /* Same as navbar */
+  color: white;
+  padding: 2rem 1.5rem;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1100; /* Above navbar */
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
 }
 
 .profile-sidebar.open {
-  right: 0;
+  transform: translateX(0);
 }
 
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 1rem;
+  right: 1rem;
   background: none;
   border: none;
-  font-size: 20px;
+  color: white;
+  font-size: 1.5rem;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.show-profile-btn {
+.close-btn:hover {
+  color: #e2e8f0;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #1e7e9e;
+  padding-bottom: 0.5rem;
+}
+
+.profile-sidebar-dp {
+  width: 40px; /* Larger than navbar for visibility */
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  margin-bottom: 0.5rem;
+}
+
+.profile-username {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.show-profile-btn,
+.logout-btn {
   display: block;
   width: 100%;
-  background: #3498db;
-  color: #fff;
-  padding: 10px;
+  background: #1e7e9e; /* Complementary shade */
+  color: white;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
   border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin: 10px 0;
-}
-
-.messages-section {
-  margin-top: 20px;
-}
-
-.message-item {
-  background: #f0f7fa;
-  padding: 10px;
   border-radius: 5px;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.show-profile-btn:hover,
+.logout-btn:hover {
+  background: #124d64; /* Darker shade */
+  transform: translateY(-2px);
 }
 
 .logout-btn {
-  background: #e74c3c;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-  width: 100%;
+  background: #e74c3c; /* Red for logout */
+  margin-top: 2rem;
+}
+
+.logout-btn:hover {
+  background: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .profile-sidebar {
+    width: 250px;
+    padding: 1.5rem 1rem;
+  }
+
+  .profile-sidebar-dp {
+    width: 35px;
+    height: 35px;
+  }
+
+  .profile-username {
+    font-size: 1rem;
+  }
+
+  .show-profile-btn,
+  .logout-btn {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
 }

@@ -1,40 +1,201 @@
+/* addVehicle.css */
 .add-vehicle-container {
-  padding: 20px;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
 }
 
-.add-vehicle-container input,
-.add-vehicle-container select,
-.add-vehicle-container textarea {
-  width: 100%;
-  padding: 8px;
-  margin: 10px 0;
-}
-
-.preferred-locations {
-  margin: 10px 0;
-}
-
-.location-list {
-  margin-top: 10px;
-}
-
-.location-item {
-  display: flex;
-  justify-content: space-between;
-  margin: 5px 0;
-}
-
-.add-vehicle-container button {
-  background: #3498db;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.add-vehicle-container h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #165472;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .error-message {
   color: #e74c3c;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: #ffe6e6;
+  border-radius: 5px;
+}
+
+/* Form Inputs */
+.add-vehicle-container select,
+.add-vehicle-container input[type="text"],
+.add-vehicle-container textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  background: #f9fafb;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-vehicle-container select:focus,
+.add-vehicle-container input[type="text"]:focus,
+.add-vehicle-container textarea:focus {
+  border-color: #165472;
+  box-shadow: 0 0 5px rgba(22, 84, 114, 0.3);
+  outline: none;
+}
+
+.add-vehicle-container select:disabled,
+.add-vehicle-container input:disabled,
+.add-vehicle-container textarea:disabled {
+  background: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.add-vehicle-container select {
+  cursor: pointer;
+}
+
+/* Preferred Locations */
+.preferred-locations {
+  margin-bottom: 1rem;
+}
+
+.preferred-locations input[type="text"] {
+  width: calc(100% - 70px);
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.preferred-locations button {
+  width: 60px;
+  padding: 0.75rem;
+  background: #1e7e9e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.preferred-locations button:hover:not(:disabled) {
+  background: #124d64;
+}
+
+.preferred-locations button:disabled {
+  background: #a3bffa;
+  cursor: not-allowed;
+}
+
+.location-list {
+  margin-top: 0.5rem;
+}
+
+.location-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  background: #f1f5f9;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.location-item button {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.location-item button:hover:not(:disabled) {
+  background: #c0392b;
+}
+
+.location-item button:disabled {
+  background: #f4a4a4;
+  cursor: not-allowed;
+}
+
+/* Driver Option */
+.driver-option {
+  margin-bottom: 1rem;
+}
+
+.driver-option label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.driver-option input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 18px;
+  height: 18px;
+  accent-color: #165472;
+}
+
+/* Save Button */
+.add-vehicle-container button:not(.preferred-locations button):not(.location-item button) {
+  width: 100%;
+  padding: 0.9rem;
+  background: #165472;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-vehicle-container button:not(.preferred-locations button):not(.location-item button):hover:not(:disabled) {
+  background: #124d64;
+  transform: translateY(-2px);
+}
+
+.add-vehicle-container button:not(.preferred-locations button):not(.location-item button):disabled {
+  background: #a3bffa;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .add-vehicle-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .add-vehicle-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .preferred-locations input[type="text"] {
+    width: calc(100% - 60px);
+  }
+
+  .preferred-locations button {
+    width: 50px;
+    padding: 0.6rem;
+  }
+
+  .add-vehicle-container button:not(.preferred-locations button):not(.location-item button) {
+    padding: 0.75rem;
+  }
 }

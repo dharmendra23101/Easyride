@@ -1,78 +1,113 @@
-/* Apply blur and transparency to the profile container */
+/* profileShow.css */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/blue_travel.jpg') no-repeat center center/cover;
+  filter: blur(3px);
+  z-index: -1;
+}
+
 .profile-show-container {
-  font-family: "Poppins", sans-serif;
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.2); /* Light transparent white */
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.profile-header {
   text-align: center;
-  
-  /* Apply blur effect */
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px); /* Safari support */
-  
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin-bottom: 2rem;
 }
 
-.profile-show-container h2{
-  font-family: "Anton", sans-serif;
-    font-size: 40px !important;  /* Force the size */
-    color: #DE3163 !important;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    margin-top: 10px;
+.profile-header h2 {
+  font-size: 1.75rem;
+  color: #1a1a1a;
+  margin: 0;
 }
 
+.profile-subtitle {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
 
+.profile-info {
+  margin-bottom: 2rem;
+}
 
-/* Profile Picture */
 .profile-pic {
-  width: 100px;
-  height: 100px;
+  display: block;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
+  margin: 0 auto 1.5rem;
   object-fit: cover;
-  border: 3px solid #3498db;
-  margin-bottom: 15px;
+  border: 3px solid #007bff;
 }
 
-/* Profile Info */
-.profile-info p {
-  font-size: 16px;
-  margin: 10px 0;
-  color: #444;
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
-.profile-info p strong {
-  font-weight: 700;
-  color: #222;
+.info-item {
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: #f8f9fa;
 }
 
-/* Error Message */
-.error-message {
-  color: #d9534f;
-  font-size: 16px;
-  font-weight: 600;
+.info-item strong {
+  color: #333;
+  font-weight: 500;
+  margin-right: 0.5rem;
 }
 
-/* Edit Button */
+.info-item span {
+  color: #666;
+}
+
+.info-item.about-you {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .edit-btn {
-  display: inline-block;
-  background: #3498db;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  padding: 0.85rem 1.5rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s ease-in-out;
-  margin-top: 15px;
+  display: block;
+  margin: 0 auto;
+  transition: background-color 0.3s ease;
 }
 
 .edit-btn:hover {
-  background: #217dbb;
+  background-color: #0062cc;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.9rem;
+  text-align: center;
+  background: #fee;
+  padding: 0.75rem;
+  border-radius: 6px;
 }

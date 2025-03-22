@@ -1,60 +1,462 @@
+/* vehicleDetailsPopup.css */
 .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.vehicle-details-popup {
+  background: white;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+  font-family: 'Arial', sans-serif;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.close-btn:hover {
+  background: #c0392b;
+}
+
+/* Header */
+.popup-header {
+  padding: 20px;
+  border-bottom: 1px solid #ecf0f1;
+  background: #f9fafc;
+  text-align: center;
+}
+
+.vehicle-status {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.status-indicator {
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  color: white;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.status-indicator i {
+  margin-right: 5px;
+}
+
+.status-indicator.booked {
+  background: #e74c3c;
+}
+
+.status-indicator.available {
+  background: #2ecc71;
+}
+
+.driver-badge {
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  background: #3498db;
+  color: white;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+.driver-badge i {
+  margin-right: 5px;
+}
+
+.popup-header h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin: 10px 0;
+}
+
+.vehicle-location {
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.vehicle-location i {
+  margin-right: 8px;
+  color: #3498db;
+}
+
+/* Body */
+.popup-body {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+}
+
+.popup-left {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.vehicle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover .vehicle-image {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.price-tag {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.owner-card {
+  background: #f9fafc;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ecf0f1;
+}
+
+.owner-card h3 {
+  color: #2c3e50;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.owner-card h3 i {
+  margin-right: 8px;
+  color: #3498db;
+}
+
+.owner-info p {
+  margin: 8px 0;
+  color: #7f8c8d;
+  font-size: 0.95rem;
+}
+
+.owner-info p strong {
+  color: #2c3e50;
+  margin-right: 5px;
+}
+
+.popup-right {
+  flex: 1;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #ecf0f1;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #7f8c8d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tab-btn:hover {
+  color: #3498db;
+}
+
+.tab-btn.active {
+  color: #3498db;
+  border-bottom: 2px solid #3498db;
+  font-weight: 600;
+}
+
+.tab-content {
+  padding: 0 10px;
+}
+
+/* Details Tab */
+.details-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail-row {
+  display: flex;
+  gap: 15px;
+}
+
+.detail-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detail-full {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.detail-item i,
+.detail-full i {
+  color: #3498db;
+  font-size: 1.2rem;
+}
+
+.detail-text {
+  flex: 1;
+}
+
+.detail-label {
+  display: block;
+  color: #7f8c8d;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+.detail-value {
+  color: #2c3e50;
+  font-size: 0.95rem;
+  word-wrap: break-word;
+}
+
+.detail-value.description {
+  line-height: 1.4;
+}
+
+/* Booking Tab */
+.booking-tab h3 {
+  color: #2c3e50;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.error-message {
+  background: #fceaea;
+  color: #e74c3c;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: #2c3e50;
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-group label i {
+  color: #3498db;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.form-group input:disabled {
+  background: #ecf0f1;
+  cursor: not-allowed;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.submit-request-btn {
+  padding: 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submit-request-btn:hover:not(:disabled) {
+  background: #2980b9;
+}
+
+.submit-request-btn:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* Booked Tab */
+.booked-tab h3 {
+  color: #2c3e50;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.booking-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.booking-detail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.booking-detail i {
+  color: #3498db;
+  font-size: 1.2rem;
+}
+
+.booking-detail div {
+  flex: 1;
+}
+
+.booking-detail .detail-label {
+  display: block;
+  color: #7f8c8d;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+.booking-detail .detail-value {
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .popup-body {
+      flex-direction: column;
   }
-  
-  .popup-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 600px;
-    position: relative;
+
+  .popup-left {
+      flex: none;
+      width: 100%;
   }
-  
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
+
+  .tabs {
+      flex-wrap: wrap;
   }
-  
-  .popup-vehicle-pic {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
+
+  .tab-btn {
+      flex: none;
+      width: 50%;
   }
-  
-  .vehicle-details, .owner-details, .booking-request {
-    margin-top: 20px;
+
+  .form-row {
+      flex-direction: column;
+      gap: 15px;
   }
-  
-  .booking-request input {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 8px;
+}
+
+@media (max-width: 480px) {
+  .popup-header h2 {
+      font-size: 1.5rem;
   }
-  
-  .booking-request button {
-    background: #3498db;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+
+  .vehicle-status {
+      flex-direction: column;
+      gap: 5px;
   }
-  
-  .error-message {
-    color: #e74c3c;
+
+  .tab-btn {
+      width: 100%;
+      font-size: 0.9rem;
   }
+
+  .image-container {
+      height: 150px;
+  }
+}
