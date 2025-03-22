@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore"; // Added updateDoc
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore"; // Removed updateDoc
 import { useNavigate } from "react-router-dom";
 import "../css/requestStatus.css";
 
@@ -9,7 +9,6 @@ const RequestStatus = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [requests, setRequests] = useState([]);
-  const [bookedVehicles, setBookedVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,7 +16,7 @@ const RequestStatus = () => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        fetchRequestsAndBookings(currentUser.uid);
+        fetchRequests(currentUser.uid);
       } else {
         navigate("/auth");
       }
@@ -25,17 +24,17 @@ const RequestStatus = () => {
     return () => unsubscribe();
   }, [navigate]);
 
-  const fetchRequestsAndBookings = useCallback(async (uid) => {
+  const fetchRequests = useCallback(async (uid) => {
     setLoading(true);
     try {
-      // Fetch all vehicles
+      // Fetch all vehicles for reference
       const vehicleSnapshot = await getDocs(collection(db, "vehicles"));
       const allVehicles = vehicleSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
-      // Fetch booking requests
+      // Fetch user's booking requests
       const requestSnapshot = await getDocs(collection(db, "bookingRequests"));
       const userRequests = requestSnapshot.docs
-        .filter((doc) => doc.data().userId === uid && doc.data().status === "pending")
+        .filter((doc) => doc.data().userId === uid) // All requests by the user
         .map((doc) => {
           const vehicle = allVehicles.find((v) => v.id === doc.data().vehicleId) || {};
           return {
@@ -45,39 +44,17 @@ const RequestStatus = () => {
             owner: vehicle.username || "Anonymous",
             location: `${vehicle.country || "N/A"}, ${vehicle.state || "N/A"}, ${vehicle.city || "N/A"}`,
             requestLocation: doc.data().requestLocation,
-            requestDate: doc.data().requestDate,
             requestedAt: doc.data().requestedAt,
-            status: "pending",
+            startDateTime: doc.data().startDateTime || doc.data().requestDate, // Use startDateTime if available
+            endDateTime: doc.data().endDateTime,
+            status: doc.data().status === "accepted" ? "booked" : doc.data().status, // Treat "accepted" as "booked"
           };
-        });
-
-      // Fetch booked vehicles
-      const userBookings = allVehicles
-        .filter((vehicle) => 
-          vehicle.booked && 
-          vehicle.bookedBy && 
-          vehicle.bookedBy.userId === uid
-        )
-        .map((vehicle) => ({
-          vehicleId: vehicle.id,
-          type: vehicle.type,
-          owner: vehicle.username,
-          location: `${vehicle.country}, ${vehicle.state}, ${vehicle.city}`,
-          requestLocation: vehicle.bookedBy.requestedLocation,
-          requestDate: vehicle.bookedBy.requestedDate,
-          bookedAt: vehicle.bookedBy.bookedAt,
-          status: "booked",
-        }))
-        .filter((booking) => {
-          const requestDate = new Date(booking.requestDate);
-          const today = new Date();
-          return requestDate >= today;
-        });
+        })
+        .filter((request) => ["pending", "booked"].includes(request.status)); // Only show pending or booked
 
       setRequests(userRequests);
-      setBookedVehicles(userBookings);
     } catch (err) {
-      setError("Failed to fetch data: " + err.message);
+      setError("Failed to fetch requests: " + err.message);
       console.error(err);
     } finally {
       setLoading(false);
@@ -89,7 +66,7 @@ const RequestStatus = () => {
       try {
         const requestRef = doc(db, "bookingRequests", requestId);
         await deleteDoc(requestRef);
-        fetchRequestsAndBookings(user.uid);
+        fetchRequests(user.uid);
         alert("Request rejected and removed!");
       } catch (err) {
         setError("Error rejecting request: " + err.message);
@@ -98,31 +75,15 @@ const RequestStatus = () => {
     }
   };
 
-  const handleDeleteBooking = async (vehicleId, requestDate) => {
-    const requestDateObj = new Date(requestDate);
-    const today = new Date();
-    const diffTime = requestDateObj - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays <= 3) {
-      alert("You can only delete a booking more than 3 days before the requested date.");
-      return;
-    }
-
-    if (window.confirm("Are you sure you want to delete this booking?")) {
-      try {
-        const vehicleRef = doc(db, "vehicles", vehicleId);
-        await updateDoc(vehicleRef, {
-          booked: false,
-          bookedBy: null,
-        });
-        fetchRequestsAndBookings(user.uid);
-        alert("Booking deleted and vehicle status updated!");
-      } catch (err) {
-        setError("Error deleting booking: " + err.message);
-        console.error(err);
-      }
-    }
+  const formatDateTime = (dateTimeString) => {
+    if (!dateTimeString) return "N/A";
+    return new Date(dateTimeString).toLocaleString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   if (loading) return <div className="request-status-container"><p>Loading...</p></div>;
@@ -132,49 +93,32 @@ const RequestStatus = () => {
     <div className="request-status-container">
       <h2>Your Request Status</h2>
 
-      {(requests.length === 0 && bookedVehicles.length === 0) ? (
-        <p className="no-data">No requests or bookings found.</p>
+      {requests.length === 0 ? (
+        <p className="no-data">No requests found.</p>
       ) : (
         <div className="status-list">
           {requests.map((request) => (
-            <div key={request.requestId} className="status-card pending">
+            <div key={request.requestId} className={`status-card ${request.status}`}>
               <p><strong>Vehicle:</strong> {request.type}</p>
               <p><strong>Owner:</strong> {request.owner}</p>
               <p><strong>Location:</strong> {request.location}</p>
               <p><strong>Requested Location:</strong> {request.requestLocation}</p>
-              <p><strong>Requested Date:</strong> {request.requestDate}</p>
-              <p><strong>Status:</strong> Pending</p>
-              <button
-                onClick={() => handleRejectRequest(request.requestId)}
-                className="reject-btn"
-              >
-                Reject
-              </button>
+              <p><strong>Start Date:</strong> {formatDateTime(request.startDateTime)}</p>
+              {request.status === "booked" && (
+                <p><strong>End Date:</strong> {formatDateTime(request.endDateTime)}</p>
+              )}
+              <p><strong>Requested At:</strong> {formatDateTime(request.requestedAt)}</p>
+              <p><strong>Status:</strong> {request.status.charAt(0).toUpperCase() + request.status.slice(1)}</p>
+              {request.status === "pending" && (
+                <button
+                  onClick={() => handleRejectRequest(request.requestId)}
+                  className="reject-btn"
+                >
+                  Reject
+                </button>
+              )}
             </div>
           ))}
-
-          {bookedVehicles.map((booking) => {
-            const diffDays = Math.ceil((new Date(booking.requestDate) - new Date()) / (1000 * 60 * 60 * 24));
-            return (
-              <div key={booking.vehicleId} className="status-card booked">
-                <p><strong>Vehicle:</strong> {booking.type}</p>
-                <p><strong>Owner:</strong> {booking.owner}</p>
-                <p><strong>Location:</strong> {booking.location}</p>
-                <p><strong>Requested Location:</strong> {booking.requestLocation}</p>
-                <p><strong>Requested Date:</strong> {booking.requestDate}</p>
-                <p><strong>Booked At:</strong> {new Date(booking.bookedAt).toLocaleString()}</p>
-                <p><strong>Status:</strong> Booked</p>
-                {diffDays > 3 && (
-                  <button
-                    onClick={() => handleDeleteBooking(booking.vehicleId, booking.requestDate)}
-                    className="delete-btn"
-                  >
-                    Delete Booking
-                  </button>
-                )}
-              </div>
-            );
-          })}
         </div>
       )}
     </div>

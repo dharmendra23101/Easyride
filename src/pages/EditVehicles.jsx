@@ -9,7 +9,7 @@ import CarImage from "../assets/CAR.jpeg";
 import TruckImage from "../assets/TRUCK.jpeg";
 import AutoImage from "../assets/AUTO.jpeg";
 import OtherImage from "../assets/OTHER.jpeg";
-import DefaultImage from "../assets/default-vehicle.jpg"; // Ensure this file exists in src/assets/
+import DefaultImage from "../assets/default-vehicle.jpg";
 import "../css/editVehicles.css";
 
 const EditVehicles = () => {
@@ -122,7 +122,7 @@ const EditVehicles = () => {
       console.error(err);
     }
   };
-  
+
   const handleCancelBooking = async (vehicleId) => {
     try {
       const vehicleRef = doc(db, "vehicles", vehicleId);
@@ -138,23 +138,23 @@ const EditVehicles = () => {
       console.error(err);
     }
   };
-  
+
   const toggleRequestExpansion = (vehicleId) => {
-    setExpandedRequests(prev => ({
+    setExpandedRequests((prev) => ({
       ...prev,
-      [vehicleId]: !prev[vehicleId]
+      [vehicleId]: !prev[vehicleId],
     }));
   };
-  
+
   const formatDateTime = (dateTimeString) => {
     if (!dateTimeString) return "Not specified";
     try {
-      return new Date(dateTimeString).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+      return new Date(dateTimeString).toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       });
     } catch (error) {
       return "Invalid date";
@@ -192,192 +192,91 @@ const EditVehicles = () => {
   return (
     <div className="edit-vehicles-container">
       <h2>Manage Vehicles</h2>
-      {error && <p className="error-message"><i className="fa fa-exclamation-circle"></i> {error}</p>}
+      {error && <p className="error-message">{error}</p>}
 
       {vehicles.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-state-icon"><i className="fa fa-car"></i></div>
-          <h3>No Vehicles Found</h3>
-          <p>Add your first vehicle to start receiving booking requests!</p>
-          <button onClick={() => navigate("/add-vehicle")} className="add-vehicle-btn">
-            <i className="fa fa-plus"></i> Add Your Vehicle
+        <div className="no-data">
+          <p>No vehicles found. Add one to get started!</p>
+          <button onClick={() => navigate("/add-vehicle")} className="add-btn">
+            Add Vehicle
           </button>
         </div>
       ) : (
-        <>
-          <div className="vehicles-list">
-            {vehicles.map((vehicle) => (
-              <div key={vehicle.id} className="vehicle-item">
-                <div className={`vehicle-status-badge ${vehicle.booked ? 'status-booked' : 'status-available'}`}>
-                  {vehicle.booked ? 'Booked' : 'Available'}
-                </div>
-                
-                <img
-                  src={resolvePhotoURL(vehicle)}
-                  alt={vehicle.type || "Vehicle"}
-                  className="vehicle-image"
-                  onError={(e) => { e.target.src = DefaultImage; }} // Use imported DefaultImage
-                />
-                
-                <h3>{vehicle.type || "Unknown Type"}</h3>
-                
-                <p>
-                  <i className="fa fa-id-card vehicle-detail-icon"></i>
-                  <strong>Vehicle Number:</strong> {vehicle.vehicleNumber || "N/A"}
-                </p>
-                
-                <p>
-                  <i className="fa fa-map-marker vehicle-detail-icon"></i>
-                  <strong>Location:</strong> {[vehicle.city, vehicle.state, vehicle.country].filter(Boolean).join(", ") || "N/A"}
-                </p>
-                
-                <p>
-                  <i className="fa fa-map vehicle-detail-icon"></i>
-                  <strong>Preferred Locations:</strong> {vehicle.preferredLocations?.join(", ") || "N/A"}
-                </p>
-                
-                <p>
-                  <i className="fa fa-user vehicle-detail-icon"></i>
-                  <strong>Driver:</strong> {vehicle.withDriver ? "With Driver" : "Self-Drive"}
-                </p>
-                
-                <p>
-                  <i className="fa fa-tag vehicle-detail-icon"></i>
-                  <strong>Price:</strong> {vehicle.price || "N/A"}
-                </p>
-                
-                <p>
-                  <i className="fa fa-file-text-o vehicle-detail-icon"></i>
-                  <strong>Description:</strong> {vehicle.description || "N/A"}
-                </p>
-                
-                {vehicle.booked && vehicle.bookedBy && (
-                  <div className="booked-info">
-                    <h3><i className="fa fa-calendar-check-o"></i> Booking Information</h3>
-                    <div className="booking-details-grid">
-                      <p><strong>Username:</strong> {vehicle.bookedBy.username}</p>
-                      <p><strong>Email:</strong> {vehicle.bookedBy.email}</p>
-                      <p><strong>Phone:</strong> {vehicle.bookedBy.phoneNumber}</p>
-                      <p><strong>Location:</strong> {[vehicle.bookedBy.city, vehicle.bookedBy.country].filter(Boolean).join(", ")}</p>
-                      <p><strong>Request Location:</strong> {vehicle.bookedBy.requestedLocation}</p>
-                      <p><strong>Booked At:</strong> {formatDateTime(vehicle.bookedBy.bookedAt)}</p>
-                      <p><strong>Start Date/Time:</strong> {formatDateTime(vehicle.bookedBy.startDateTime)}</p>
-                      <p><strong>End Date/Time:</strong> {formatDateTime(vehicle.bookedBy.endDateTime)}</p>
-                    </div>
-                    <button 
-                      className="reject-btn" 
+        <div className="vehicle-list">
+          {vehicles.map((vehicle) => (
+            <div key={vehicle.id} className="vehicle-card">
+              <img
+                src={resolvePhotoURL(vehicle)}
+                alt={vehicle.type}
+                className="vehicle-img"
+                onError={(e) => (e.target.src = DefaultImage)}
+              />
+              <div className="vehicle-details">
+                <h3>{vehicle.type}</h3>
+                <p><strong>Number:</strong> {vehicle.vehicleNumber}</p>
+                <p><strong>Location:</strong> {`${vehicle.city}, ${vehicle.state}, ${vehicle.country}`}</p>
+                <p><strong>Price:</strong> {vehicle.price || "N/A"}</p>
+                {vehicle.booked && (
+                  <div className="booking-info">
+                    <p><strong>Booked By:</strong> {vehicle.bookedBy.username}</p>
+                    <p><strong>Start:</strong> {formatDateTime(vehicle.bookedBy.startDateTime)}</p>
+                    <button
                       onClick={() => {
                         setSelectedVehicle(vehicle);
                         setCancelModalOpen(true);
                       }}
-                      style={{ marginTop: "1rem" }}
+                      className="cancel-btn"
                     >
-                      <i className="fa fa-times"></i> Cancel Booking
+                      Cancel Booking
                     </button>
                   </div>
                 )}
-                
-                {vehicle.bookingRequests && vehicle.bookingRequests.filter(r => r.status === "pending").length > 0 && (
-                  <div className="requests-section">
-                    <h3 onClick={() => toggleRequestExpansion(vehicle.id)} style={{ cursor: "pointer" }}>
-                      <i className="fa fa-clock-o"></i> Pending Requests
-                      <span className="request-count-badge">
-                        {vehicle.bookingRequests.filter(r => r.status === "pending").length}
-                      </span>
-                      <i className={`fa fa-chevron-${expandedRequests[vehicle.id] ? 'up' : 'down'}`} style={{ marginLeft: "auto" }}></i>
-                    </h3>
-                    
-                    {expandedRequests[vehicle.id] && vehicle.bookingRequests
-                      .filter(request => request.status === "pending")
-                      .map((request) => (
-                        <div key={request.id} className="request-item">
-                          <h4>Request from {request.username}</h4>
-                          <div className="request-details">
-                            <p><strong>Email:</strong> {request.email}</p>
-                            <p><strong>Phone:</strong> {request.phoneNumber}</p>
-                            <p><strong>Location:</strong> {[request.city, request.country].filter(Boolean).join(", ")}</p>
-                            <p><strong>Request Location:</strong> {request.requestLocation}</p>
-                            <p><strong>Start Date/Time:</strong> {formatDateTime(request.startDateTime)}</p>
-                            <p><strong>End Date/Time:</strong> {formatDateTime(request.endDateTime)}</p>
-                            <p><strong>Requested At:</strong> {formatDateTime(request.requestedAt)}</p>
-                            <p>
-                              <strong>Status:</strong> 
-                              <span className="request-status status-pending">Pending</span>
-                            </p>
-                          </div>
-                          
+                {vehicle.bookingRequests?.length > 0 && (
+                  <div className="requests">
+                    <h4 onClick={() => toggleRequestExpansion(vehicle.id)} className="requests-toggle">
+                      Requests ({vehicle.bookingRequests.length})
+                      <span>{expandedRequests[vehicle.id] ? "▲" : "▼"}</span>
+                    </h4>
+                    {expandedRequests[vehicle.id] && vehicle.bookingRequests.map((req) => (
+                      <div key={req.id} className="request-card">
+                        <p><strong>User:</strong> {req.username}</p>
+                        <p><strong>Location:</strong> {req.requestLocation}</p>
+                        <p><strong>Start:</strong> {formatDateTime(req.startDateTime)}</p>
+                        <div className="request-actions">
                           {!vehicle.booked && (
-                            <div className="request-actions">
-                              <button
-                                onClick={() => handleAcceptRequest(vehicle.id, request)}
-                                className="accept-btn"
-                              >
-                                <i className="fa fa-check"></i> Accept
+                            <>
+                              <button onClick={() => handleAcceptRequest(vehicle.id, req)} className="accept-btn">
+                                Accept
                               </button>
-                              <button
-                                onClick={() => handleRejectRequest(request.id)}
-                                className="reject-btn"
-                              >
-                                <i className="fa fa-times"></i> Reject
+                              <button onClick={() => handleRejectRequest(req.id)} className="reject-btn">
+                                Reject
                               </button>
-                            </div>
+                            </>
                           )}
                         </div>
+                      </div>
                     ))}
                   </div>
                 )}
-                
                 <div className="vehicle-actions">
-                  <button 
-                    onClick={() => navigate(`/edit-vehicle/${vehicle.id}`)} 
-                    className="edit-btn"
-                  >
-                    <i className="fa fa-pencil"></i> Edit
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(vehicle.id)} 
-                    className="delete-btn"
-                  >
-                    <i className="fa fa-trash"></i> Delete
-                  </button>
+                  <button onClick={() => navigate(`/edit-vehicle/${vehicle.id}`)} className="edit-btn">Edit</button>
+                  <button onClick={() => handleDelete(vehicle.id)} className="delete-btn">Delete</button>
                 </div>
               </div>
-            ))}
-          </div>
-          
-          <button
-            onClick={() => navigate("/add-vehicle")}
-            className="add-vehicle-btn"
-          >
-            <i className="fa fa-plus"></i> Add New Vehicle
-          </button>
-        </>
+            </div>
+          ))}
+          <button onClick={() => navigate("/add-vehicle")} className="add-btn">Add New Vehicle</button>
+        </div>
       )}
 
       {cancelModalOpen && selectedVehicle && (
-        <div className="popup-overlay">
-          <div className="popup-content" style={{ maxWidth: "500px" }}>
-            <h3>Cancel Booking Confirmation</h3>
-            <p>Are you sure you want to cancel the booking for your {selectedVehicle.type}?</p>
-            <p>The vehicle will be marked as available again.</p>
-            <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
-              <button 
-                onClick={() => handleCancelBooking(selectedVehicle.id)}
-                className="accept-btn"
-                style={{ flex: "1" }}
-              >
-                Yes, Cancel Booking
-              </button>
-              <button 
-                onClick={() => {
-                  setCancelModalOpen(false);
-                  setSelectedVehicle(null);
-                }}
-                className="reject-btn"
-                style={{ flex: "1" }}
-              >
-                No, Keep Booking
-              </button>
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Confirm Cancellation</h3>
+            <p>Cancel booking for {selectedVehicle.type}?</p>
+            <div className="modal-actions">
+              <button onClick={() => handleCancelBooking(selectedVehicle.id)} className="confirm-btn">Yes</button>
+              <button onClick={() => setCancelModalOpen(false)} className="cancel-btn">No</button>
             </div>
           </div>
         </div>

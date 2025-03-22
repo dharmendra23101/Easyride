@@ -77,34 +77,20 @@
   font-weight: 600;
 }
 
-.reject-btn,
-.delete-btn {
+.reject-btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   font-size: 0.9rem;
   font-weight: 500;
+  background: #e74c3c;
+  color: white;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.reject-btn {
-  background: #e74c3c;
-  color: white;
-}
-
 .reject-btn:hover {
   background: #c0392b;
-  transform: translateY(-2px);
-}
-
-.delete-btn {
-  background: #f59e0b;
-  color: white;
-}
-
-.delete-btn:hover {
-  background: #d97706;
   transform: translateY(-2px);
 }
 
@@ -127,8 +113,7 @@
     font-size: 0.9rem;
   }
 
-  .reject-btn,
-  .delete-btn {
+  .reject-btn {
     padding: 0.4rem 0.8rem;
     font-size: 0.85rem;
   }

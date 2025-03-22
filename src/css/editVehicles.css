@@ -1,401 +1,241 @@
-/* EditVehicles.css - Professional styling for vehicle management */
-
+/* editVehicles.css */
 .edit-vehicles-container {
-  max-width: 100%; /* Adjusted for full width within main-content */
-  margin: 1rem auto;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-}
-
-.edit-vehicles-container h2 {
-  font-size: 2.2rem;
-  color: #1e3a8a;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-weight: 600;
-  border-bottom: 2px solid #e2e8f0;
-  padding-bottom: 1rem;
-}
-
-.vehicles-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.vehicle-item {
-  background-color: white;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 1.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
 }
 
-.vehicle-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+h2 {
+  font-size: 1.8rem;
+  color: #165472;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-.vehicle-status-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.4rem 1rem;
-  border-radius: 0 10px 0 10px;
-  font-weight: 500;
-  font-size: 0.875rem;
-}
-
-.status-available {
-  background-color: #d1fae5;
-  color: #065f46;
-}
-
-.status-booked {
-  background-color: #fee2e2;
-  color: #991b1b;
-}
-
-.vehicle-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
+.error-message {
+  color: #e74c3c;
+  background: #ffe6e6;
+  padding: 0.5rem;
+  border-radius: 5px;
+  text-align: center;
   margin-bottom: 1rem;
-  border: 1px solid #e2e8f0;
 }
 
-.vehicle-item h3 {
-  font-size: 1.5rem;
-  color: #1e3a8a;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 0.5rem;
+.loading-container {
+  text-align: center;
+  padding: 2rem;
 }
 
-.vehicle-item p {
-  font-size: 0.95rem;
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  color: #4b5563;
-}
-
-.vehicle-item p strong {
-  min-width: 140px;
-  display: inline-block;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.vehicle-detail-icon {
-  margin-right: 8px;
-  color: #4f46e5;
-  width: 18px;
-}
-
-.vehicle-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.edit-btn,
-.delete-btn,
-.add-vehicle-btn {
-  padding: 0.6rem 1.25rem;
-  border-radius: 6px;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.edit-btn {
-  background-color: #3b82f6;
-  color: white;
-  flex: 1;
-}
-
-.edit-btn:hover {
-  background-color: #2563eb;
-  transform: translateY(-2px);
-}
-
-.delete-btn {
-  background-color: #ef4444;
-  color: white;
-  flex: 1;
-}
-
-.delete-btn:hover {
-  background-color: #dc2626;
-  transform: translateY(-2px);
-}
-
-.add-vehicle-btn {
-  background-color: #10b981;
-  color: white;
-  padding: 0.8rem 2rem;
-  font-size: 1.1rem;
-  margin: 0 auto;
-  display: block;
-  width: fit-content;
-}
-
-.add-vehicle-btn:hover {
-  background-color: #059669;
-  transform: translateY(-2px);
-}
-
-/* Booking requests section */
-.requests-section {
-  margin-top: 1.5rem;
-  background-color: #f1f5f9;
-  border-radius: 8px;
-  padding: 1.5rem; /* Increased padding for more space */
-  border-left: 4px solid #3b82f6;
-  min-width: 0; /* Prevents overflow in flex/grid layouts */
-}
-
-.requests-section h3 {
-  font-size: 1.25rem;
-  color: #1e3a8a;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.request-count-badge {
-  background-color: #3b82f6;
-  color: white;
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #165472;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  margin-left: 0.5rem;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
 }
 
-.request-item {
-  background-color: white;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.no-data {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+}
+
+.vehicle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vehicle-card {
+  display: flex;
+  padding: 1rem;
+  background: #f9fafb;
   border-radius: 8px;
-  padding: 1.5rem; /* Increased padding */
-  margin-bottom: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  border-left: 3px solid #818cf8;
-  overflow: hidden; /* Ensures content stays within bounds */
+  transition: transform 0.2s ease;
 }
 
-.request-item:last-child {
-  margin-bottom: 0;
+.vehicle-card:hover {
+  transform: translateY(-2px);
 }
 
-.request-item h4 {
-  font-size: 1.1rem;
-  color: #4f46e5;
-  margin-bottom: 0.75rem;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 0.5rem;
+.vehicle-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 1rem;
 }
 
-.request-details {
-  display: flex;
-  flex-direction: column; /* Changed to column layout to avoid overflow */
-  gap: 0.75rem;
-  font-size: 0.9rem;
-  word-wrap: break-word; /* Ensures long text wraps */
+.vehicle-details {
+  flex: 1;
 }
 
-.request-details p {
-  margin: 0; /* Remove default margin to control spacing with gap */
+.vehicle-details h3 {
+  font-size: 1.2rem;
+  color: #165472;
+  margin-bottom: 0.5rem;
+}
+
+.vehicle-details p {
+  font-size: 0.95rem;
+  color: #333;
+  margin: 0.3rem 0;
+}
+
+.booking-info {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: #e6f3f8;
+  border-radius: 5px;
+}
+
+.requests-toggle {
+  cursor: pointer;
+  color: #1e7e9e;
   display: flex;
   align-items: center;
-  color: #4b5563;
+  gap: 0.5rem;
 }
 
-.request-details p strong {
-  min-width: 130px; /* Slightly reduced to fit better */
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.request-status {
-  margin-top: 0.5rem;
-  font-weight: 600;
-  padding: 0.3rem 0.75rem;
-  border-radius: 4px;
-  display: inline-block;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-}
-
-.status-pending {
-  background-color: #fef3c7;
-  color: #92400e;
-}
-
-.status-accepted {
-  background-color: #d1fae5;
-  color: #065f46;
+.request-card {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
 }
 
 .request-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.vehicle-actions,
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
   margin-top: 1rem;
 }
 
+.add-btn,
+.edit-btn,
+.delete-btn,
 .accept-btn,
-.reject-btn {
+.reject-btn,
+.cancel-btn,
+.confirm-btn {
   padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
   border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  border-radius: 5px;
   font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-btn {
+  background: #1e7e9e;
+  color: white;
+}
+
+.add-btn:hover {
+  background: #124d64;
+  transform: translateY(-2px);
+}
+
+.edit-btn {
+  background: #10b981;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #059669;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
 }
 
 .accept-btn {
-  background-color: #10b981;
+  background: #10b981;
   color: white;
-  flex: 1;
 }
 
 .accept-btn:hover {
-  background-color: #059669;
+  background: #059669;
 }
 
-.reject-btn {
-  background-color: #ef4444;
+.reject-btn,
+.cancel-btn {
+  background: #e74c3c;
   color: white;
-  flex: 1;
 }
 
-.reject-btn:hover {
-  background-color: #dc2626;
+.reject-btn:hover,
+.cancel-btn:hover {
+  background: #c0392b;
 }
 
-/* Booking information section */
-.booked-info {
-  margin-top: 1.5rem;
-  background-color: #eff6ff;
-  border-radius: 8px;
-  padding: 1.25rem;
-  border-left: 4px solid #10b981;
+.confirm-btn {
+  background: #1e7e9e;
+  color: white;
 }
 
-.booked-info h3 {
-  font-size: 1.25rem;
-  color: #065f46;
-  margin-bottom: 1rem;
+.confirm-btn:hover {
+  background: #124d64;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.booking-details-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
-
-.error-message {
-  background-color: #fee2e2;
-  color: #991b1b;
-  padding: 1rem;
-  border-radius: 6px;
-  margin-bottom: 1.5rem;
-  font-weight: 500;
-}
-
-/* Loading state */
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 3rem;
+  align-items: center;
 }
 
-.loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid #3b82f6;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  animation: rotation 1s linear infinite;
-  margin-bottom: 1rem;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Responsive styling */
-@media (max-width: 768px) {
-  .vehicles-list {
-    grid-template-columns: 1fr;
-  }
-
-  .request-details {
-    gap: 0.5rem; /* Slightly reduced gap for smaller screens */
-  }
-
-  .booking-details-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .edit-vehicles-container {
-    padding: 0.5rem;
-  }
-}
-
-/* Empty state styling */
-.empty-state {
-  text-align: center;
-  padding: 3rem 2rem;
-  background-color: white;
+.modal-content {
+  background: #fff;
+  padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
+  max-width: 400px;
+  text-align: center;
 }
 
-.empty-state-icon {
-  font-size: 3rem;
-  color: #8b5cf6;
-  margin-bottom: 1rem;
-}
+@media (max-width: 480px) {
+  .edit-vehicles-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
 
-.empty-state h3 {
-  font-size: 1.5rem;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
-}
+  .vehicle-card {
+    flex-direction: column;
+  }
 
-.empty-state p {
-  color: #6b7280;
-  margin-bottom: 1.5rem;
+  .vehicle-img {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
 }
